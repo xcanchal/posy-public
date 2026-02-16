@@ -1,0 +1,2063 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posy - Period Tracker & Log | Simple, Private Cycle Tracking</title>
+    <meta
+      name="description"
+      content="Posy is a beautifully simple period tracker that keeps your data private. Track cycles, predict periods, log moods & symptoms, and get insights — all stored locally on your device."
+    />
+    <meta
+      name="keywords"
+      content="period tracker, menstrual cycle, cycle tracking, period prediction, mood tracker, symptom log, privacy, health app, iOS"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Posy - Period Tracker & Log" />
+    <meta
+      property="og:description"
+      content="Beautifully simple period tracking. 100% private. All data stays on your device."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="images/screenshots/icon.png" />
+
+    <!-- Favicon (use app icon) -->
+    <link rel="icon" type="image/png" href="images/screenshots/icon.png" />
+    <link rel="apple-touch-icon" href="images/screenshots/icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Posy: Period Tracker & Log",
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "description": "Beautifully simple period tracker. Track cycles, predict periods, log moods & symptoms, and get insights. 100% private — all data stays on your device.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Xavier Canchal"
+        }
+      }
+    </script>
+
+    <style>
+      /* ===== CSS Custom Properties ===== */
+      :root {
+        --pink-50: #fff5f7;
+        --pink-100: #fce8ed;
+        --pink-200: #fcd5dd;
+        --pink-300: #f5a0b1;
+        --pink-400: #e8758c;
+        --pink-500: #d4506a;
+        --pink-600: #b83a54;
+        --cream: #fffaf8;
+        --text-primary: #2d2d2d;
+        --text-secondary: #666;
+        --text-light: #999;
+        --white: #ffffff;
+        --shadow-sm: 0 2px 8px rgba(232, 117, 140, 0.1);
+        --shadow-md: 0 8px 30px rgba(232, 117, 140, 0.15);
+        --shadow-lg: 0 20px 60px rgba(232, 117, 140, 0.2);
+        --shadow-phone:
+          0 25px 80px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(232, 117, 140, 0.1);
+        --radius-sm: 12px;
+        --radius-md: 20px;
+        --radius-lg: 32px;
+        --font:
+          "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+      }
+
+      /* ===== Reset & Base ===== */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        font-family: var(--font);
+        color: var(--text-primary);
+        background: var(--white);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      a {
+        color: var(--pink-400);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      a:hover {
+        color: var(--pink-500);
+      }
+
+      /* ===== Typography ===== */
+      h1,
+      h2,
+      h3,
+      h4 {
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 1.15rem;
+        max-width: 600px;
+        margin: 0 auto 3.5rem;
+        line-height: 1.7;
+      }
+
+      /* ===== Layout ===== */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      section {
+        padding: 100px 0;
+      }
+
+      /* ===== Navigation ===== */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(232, 117, 140, 0.1);
+        transition: box-shadow 0.3s;
+      }
+
+      nav.scrolled {
+        box-shadow: var(--shadow-sm);
+      }
+
+      .nav-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: var(--text-primary);
+      }
+
+      .nav-logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .nav-logo-placeholder {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--pink-300), var(--pink-400));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--pink-400);
+      }
+
+      .nav-cta {
+        background: var(--pink-400);
+        color: var(--white) !important;
+        padding: 10px 24px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+
+      .nav-cta:hover {
+        background: var(--pink-500);
+        color: var(--white) !important;
+        transform: translateY(-1px);
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      .mobile-menu-btn span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        margin: 6px 0;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+
+      /* ===== Hero Section ===== */
+      .hero {
+        padding: 140px 0 100px;
+        background: linear-gradient(
+          180deg,
+          var(--pink-50) 0%,
+          var(--white) 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -200px;
+        right: -200px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 117, 140, 0.08) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        bottom: -100px;
+        left: -100px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(245, 160, 177, 0.06) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .hero .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-content {
+        max-width: 520px;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--pink-100);
+        color: var(--pink-500);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+
+      .hero h1 {
+        margin-bottom: 20px;
+        color: var(--text-primary);
+      }
+
+      .hero h1 span {
+        background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-description {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+        margin-bottom: 36px;
+        line-height: 1.8;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--pink-400);
+        color: var(--white);
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(232, 117, 140, 0.3);
+      }
+
+      .btn-primary:hover {
+        background: var(--pink-500);
+        color: var(--white);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(232, 117, 140, 0.4);
+      }
+
+      .btn-primary svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        padding: 16px 24px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        transition: color 0.2s;
+      }
+
+      .btn-secondary:hover {
+        color: var(--pink-400);
+      }
+
+      .hero-trust {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1px solid var(--pink-100);
+      }
+
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .trust-item svg {
+        width: 18px;
+        height: 18px;
+        color: var(--pink-400);
+        flex-shrink: 0;
+      }
+
+      /* ===== Hero Visual ===== */
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .hero-screenshot {
+        position: relative;
+        max-width: 380px;
+        animation: heroFloat 6s ease-in-out infinite;
+      }
+
+      .hero-screenshot img {
+        width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg);
+        filter: drop-shadow(0 20px 60px rgba(232, 117, 140, 0.25));
+      }
+
+      /* Decorative elements around hero image */
+      .deco-flower {
+        position: absolute;
+        z-index: 3;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .deco-flower-1 {
+        top: -20px;
+        right: -30px;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      .deco-flower-2 {
+        bottom: 80px;
+        left: -40px;
+        width: 60px;
+        height: 60px;
+        animation-delay: 2s;
+      }
+
+      .deco-flower-3 {
+        top: 120px;
+        right: -50px;
+        width: 50px;
+        height: 50px;
+        animation-delay: 4s;
+      }
+
+      .deco-heart {
+        position: absolute;
+        z-index: 3;
+      }
+
+      .deco-heart-1 {
+        top: 60px;
+        left: -20px;
+        animation: floatHeart 5s ease-in-out infinite;
+      }
+
+      .deco-heart-2 {
+        bottom: 140px;
+        right: -20px;
+        animation: floatHeart 5s ease-in-out infinite 1.5s;
+      }
+
+      @keyframes heroFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+      }
+
+      @keyframes floatHeart {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-10px) scale(1.1);
+        }
+      }
+
+      /* ===== Features Section ===== */
+      .features {
+        background: var(--white);
+      }
+
+      .features h2 span {
+        color: var(--pink-400);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+
+      .feature-card {
+        background: var(--white);
+        border: 1px solid var(--pink-100);
+        border-radius: var(--radius-md);
+        padding: 36px 28px;
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: transparent;
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .feature-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .feature-icon-pink {
+        background: var(--pink-100);
+        color: var(--pink-400);
+      }
+      .feature-icon-coral {
+        background: #fde8e0;
+        color: #e07850;
+      }
+      .feature-icon-purple {
+        background: #f0e4f7;
+        color: #9b59b6;
+      }
+      .feature-icon-green {
+        background: #e0f5e9;
+        color: #4caf76;
+      }
+      .feature-icon-amber {
+        background: #fff3e0;
+        color: #e09b40;
+      }
+      .feature-icon-blue {
+        background: #e0ecf7;
+        color: #5088c5;
+      }
+
+      .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      /* ===== App Showcase Section ===== */
+      .showcase {
+        background: linear-gradient(
+          180deg,
+          var(--pink-50) 0%,
+          var(--white) 100%
+        );
+        overflow: hidden;
+      }
+
+      .showcase h2 span {
+        color: var(--pink-400);
+      }
+
+      .showcase-scroll {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px 0 40px;
+        flex-wrap: wrap;
+      }
+
+      .showcase-card {
+        flex: 0 0 auto;
+        width: 210px;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        background: var(--white);
+      }
+
+      .showcase-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .showcase-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* ===== Privacy Section ===== */
+      .privacy {
+        background: var(--white);
+        position: relative;
+      }
+
+      .privacy-wrapper {
+        background: linear-gradient(
+          135deg,
+          var(--pink-50) 0%,
+          #fef0f3 50%,
+          var(--pink-50) 100%
+        );
+        border-radius: var(--radius-lg);
+        padding: 80px 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .privacy-wrapper::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 117, 140, 0.06) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .privacy-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .privacy-content h2 {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .privacy-content h2 span {
+        color: var(--pink-400);
+      }
+
+      .privacy-description {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 32px;
+      }
+
+      .privacy-checklist {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .privacy-checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .privacy-checklist svg {
+        width: 24px;
+        height: 24px;
+        color: var(--pink-400);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .privacy-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .shield-graphic {
+        width: 260px;
+        height: 260px;
+        position: relative;
+      }
+
+      .shield-graphic svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .shield-ring {
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        border: 2px dashed var(--pink-200);
+        border-radius: 50%;
+        animation: spin 30s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ===== How It Works ===== */
+      .how-it-works {
+        background: var(--cream);
+      }
+
+      .how-it-works h2 span {
+        color: var(--pink-400);
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        position: relative;
+      }
+
+      .steps::before {
+        content: "";
+        position: absolute;
+        top: 44px;
+        left: 16%;
+        right: 16%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--pink-200),
+          var(--pink-300),
+          var(--pink-200)
+        );
+      }
+
+      .step {
+        text-align: center;
+        position: relative;
+      }
+
+      .step-number {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-weight: 800;
+        margin: 0 auto 20px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(232, 117, 140, 0.3);
+      }
+
+      .step h3 {
+        font-size: 1.15rem;
+        margin-bottom: 10px;
+      }
+
+      .step p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+
+      /* ===== FAQ Section ===== */
+      .faq {
+        background: var(--white);
+      }
+
+      .faq h2 span {
+        color: var(--pink-400);
+      }
+
+      .faq-list {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        border-bottom: 1px solid var(--pink-100);
+      }
+
+      .faq-question {
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 24px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-family: var(--font);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: left;
+        gap: 16px;
+      }
+
+      .faq-question:hover {
+        color: var(--pink-400);
+      }
+
+      .faq-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        transition: transform 0.3s;
+        color: var(--pink-400);
+      }
+
+      .faq-item.open .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.3s ease,
+          padding 0.3s ease;
+      }
+
+      .faq-item.open .faq-answer {
+        max-height: 300px;
+        padding-bottom: 24px;
+      }
+
+      .faq-answer p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        font-size: 0.98rem;
+      }
+
+      /* ===== Download CTA Section ===== */
+      .cta {
+        background: linear-gradient(
+          135deg,
+          var(--pink-400) 0%,
+          var(--pink-500) 50%,
+          var(--pink-600) 100%
+        );
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at 30% 50%,
+          rgba(255, 255, 255, 0.08) 0%,
+          transparent 50%
+        );
+      }
+
+      .cta .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta h2 {
+        color: var(--white);
+        margin-bottom: 16px;
+      }
+
+      .cta-subtitle {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.15rem;
+        margin-bottom: 40px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .btn-white {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--white);
+        color: var(--pink-500);
+        padding: 18px 36px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        color: var(--pink-600);
+      }
+
+      .btn-white svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .cta-note {
+        margin-top: 20px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      /* ===== Footer ===== */
+      footer {
+        background: var(--text-primary);
+        color: rgba(255, 255, 255, 0.6);
+        padding: 60px 0 40px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 60px;
+        margin-bottom: 40px;
+      }
+
+      .footer-brand {
+        max-width: 320px;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: var(--white);
+        margin-bottom: 16px;
+      }
+
+      .footer-logo img {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+      }
+
+      .footer-brand p {
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      .footer-col h4 {
+        color: var(--white);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 20px;
+      }
+
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-col a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+
+      .footer-col a:hover {
+        color: var(--pink-300);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+      }
+
+      /* ===== Scroll Animations ===== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 1024px) {
+        .hero .container {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 50px;
+        }
+
+        .hero-content {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .hero-buttons {
+          justify-content: center;
+        }
+
+        .hero-trust {
+          justify-content: center;
+        }
+
+        .features-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .privacy-wrapper {
+          grid-template-columns: 1fr;
+          padding: 50px 36px;
+          text-align: center;
+        }
+
+        .privacy-content h2 {
+          text-align: center;
+        }
+
+        .privacy-checklist {
+          align-items: center;
+        }
+
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        section {
+          padding: 70px 0;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .nav-links.active {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 72px;
+          left: 0;
+          right: 0;
+          background: var(--white);
+          padding: 24px;
+          gap: 20px;
+          box-shadow: var(--shadow-md);
+          border-bottom-left-radius: var(--radius-sm);
+          border-bottom-right-radius: var(--radius-sm);
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .showcase-card {
+          width: 160px;
+        }
+
+        .steps {
+          grid-template-columns: 1fr;
+          gap: 50px;
+        }
+
+        .steps::before {
+          display: none;
+        }
+
+        .hero-screenshot {
+          max-width: 300px;
+        }
+
+        .footer-bottom {
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+        }
+
+        .hero-trust {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          padding: 120px 0 70px;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .btn-primary,
+        .btn-white {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .showcase-card {
+          width: 140px;
+        }
+
+        .privacy-wrapper {
+          padding: 40px 24px;
+        }
+
+        .shield-graphic {
+          width: 180px;
+          height: 180px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== Navigation ===== -->
+    <nav>
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <img
+            src="images/screenshots/icon.png"
+            alt="Posy icon"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            "
+          />
+          <span class="nav-logo-placeholder" style="display: none">🌸</span>
+          Posy
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#screenshots">Screenshots</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li>
+            <a
+              href="https://apps.apple.com/us/app/posy-period-tracker-log/id6758400519"
+              class="nav-cta"
+              >Download Free</a
+            >
+          </li>
+        </ul>
+        <button
+          class="mobile-menu-btn"
+          onclick="
+            document.getElementById('navLinks').classList.toggle('active')
+          "
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ===== Hero Section ===== -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path
+                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+              />
+            </svg>
+            Free on the App Store
+          </div>
+          <h1>Your cycle, <span>beautifully</span> tracked</h1>
+          <p class="hero-description">
+            Posy is a simple, gorgeous period tracker that puts your privacy
+            first. Track your cycle, predict future periods, log your mood and
+            symptoms, and discover insights about your body — all without
+            sharing a single byte of data.
+          </p>
+          <div class="hero-buttons">
+            <a
+              href="https://apps.apple.com/us/app/posy-period-tracker-log/id6758400519"
+              class="btn-primary"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                />
+              </svg>
+              Download for iOS
+            </a>
+            <a href="#features" class="btn-secondary">Learn more ↓</a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              100% private
+            </div>
+            <div class="trust-item">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2v20M2 12h20" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+              No account needed
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-screenshot">
+            <!-- Decorative flowers -->
+            <div class="deco-flower deco-flower-1">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="20" r="16" fill="#fcd5dd" opacity="0.8" />
+                <circle cx="56" cy="36" r="16" fill="#f5a0b1" opacity="0.7" />
+                <circle cx="48" cy="56" r="16" fill="#fcd5dd" opacity="0.8" />
+                <circle cx="28" cy="52" r="16" fill="#f5a0b1" opacity="0.7" />
+                <circle cx="24" cy="34" r="16" fill="#fcd5dd" opacity="0.8" />
+                <circle cx="40" cy="38" r="12" fill="#e8758c" />
+                <circle cx="40" cy="38" r="6" fill="#fce8ed" />
+              </svg>
+            </div>
+            <div class="deco-flower deco-flower-2">
+              <svg viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="14" r="12" fill="#fce8ed" opacity="0.9" />
+                <circle cx="43" cy="26" r="12" fill="#fcd5dd" opacity="0.8" />
+                <circle cx="37" cy="42" r="12" fill="#fce8ed" opacity="0.9" />
+                <circle cx="21" cy="40" r="12" fill="#fcd5dd" opacity="0.8" />
+                <circle cx="17" cy="25" r="12" fill="#fce8ed" opacity="0.9" />
+                <circle cx="30" cy="28" r="9" fill="#f5a0b1" />
+                <circle cx="30" cy="28" r="4" fill="#fff5f7" />
+              </svg>
+            </div>
+
+            <!-- Decorative hearts -->
+            <div class="deco-heart deco-heart-1">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#f5a0b1">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                />
+              </svg>
+            </div>
+            <div class="deco-heart deco-heart-2">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fcd5dd">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                />
+              </svg>
+            </div>
+
+            <img
+              src="images/screenshots/1.png"
+              alt="Posy app showing current cycle day, phases, and the Posy mascot"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Features Section ===== -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="reveal">
+          Everything you need, <span>nothing you don't</span>
+        </h2>
+        <p class="section-subtitle reveal">
+          Posy gives you powerful cycle tracking in a beautifully simple
+          package.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-pink">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Cycle Tracking</h3>
+            <p>
+              See exactly where you are in your cycle with a beautiful,
+              intuitive home screen. Know your current phase at a glance.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-purple">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </div>
+            <h3>Future Predictions</h3>
+            <p>
+              Predict your upcoming periods, fertile windows, and ovulation days
+              up to 2 years ahead with smart cycle analysis.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-coral">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path
+                  d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+            </div>
+            <h3>Daily Log</h3>
+            <p>
+              Record your flow intensity, mood, and symptoms each day. Build a
+              complete picture of your menstrual health over time.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-amber">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </div>
+            <h3>Insights & Trends</h3>
+            <p>
+              Discover patterns with cycle variation charts, flow intensity
+              history, and your most common symptoms over time.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-green">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3>100% Private</h3>
+            <p>
+              Your data never leaves your device. No accounts, no servers, no
+              tracking. Your body, your data, your business.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon feature-icon-blue">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+              </svg>
+            </div>
+            <!--  <h3>Healthy Tips</h3>
+            <p>
+              Get personalized health tips and educational content tailored to
+              your current cycle phase. Learn about your body as you track.
+            </p> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== App Showcase Section ===== -->
+    <section class="showcase" id="screenshots">
+      <div class="container">
+        <h2 class="reveal">See <span>Posy</span> in action</h2>
+        <p class="section-subtitle reveal">
+          Designed with care to be the most intuitive and delightful period
+          tracker you've ever used.
+        </p>
+
+        <div class="showcase-scroll reveal">
+          <div class="showcase-card">
+            <img
+              src="images/screenshots/1.png"
+              alt="Posy home screen showing current cycle day, phase information, and the adorable Posy mascot"
+            />
+          </div>
+          <div class="showcase-card">
+            <img
+              src="images/screenshots/2.png"
+              alt="Posy calendar view with future cycle predictions up to 2 years ahead"
+            />
+          </div>
+          <div class="showcase-card">
+            <img
+              src="images/screenshots/3.png"
+              alt="Posy daily log for tracking mood, flow intensity, and symptoms"
+            />
+          </div>
+          <div class="showcase-card">
+            <img
+              src="images/screenshots/4.png"
+              alt="Posy insights showing cycle variation, flow intensity, and most common symptoms"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Privacy Section ===== -->
+    <section class="privacy" id="privacy">
+      <div class="container">
+        <div class="privacy-wrapper reveal">
+          <div class="privacy-content">
+            <h2>Your privacy is <span>non-negotiable</span></h2>
+            <p class="privacy-description">
+              In a world where health apps sell your most intimate data, Posy
+              takes a different approach. Your data stays on your device —
+              period.
+            </p>
+            <ul class="privacy-checklist">
+              <li>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                No data collection whatsoever
+              </li>
+              <li>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                No accounts or sign-up required
+              </li>
+              <li>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                No analytics or tracking tools
+              </li>
+              <li>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                No third-party data sharing
+              </li>
+              <li>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Export or delete your data anytime
+              </li>
+            </ul>
+          </div>
+          <div class="privacy-visual">
+            <div class="shield-graphic">
+              <div class="shield-ring"></div>
+              <svg viewBox="0 0 200 200" fill="none">
+                <defs>
+                  <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#f5a0b1" />
+                    <stop offset="100%" stop-color="#e8758c" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M100 20 L170 50 L170 100 C170 145 140 170 100 185 C60 170 30 145 30 100 L30 50 Z"
+                  fill="url(#shieldGrad)"
+                  opacity="0.15"
+                />
+                <path
+                  d="M100 35 L158 58 L158 100 C158 137 133 158 100 172 C67 158 42 137 42 100 L42 58 Z"
+                  fill="url(#shieldGrad)"
+                  opacity="0.1"
+                />
+                <path
+                  d="M100 50 L145 68 L145 100 C145 128 126 146 100 158 C74 146 55 128 55 100 L55 68 Z"
+                  fill="none"
+                  stroke="#e8758c"
+                  stroke-width="1.5"
+                  opacity="0.4"
+                />
+                <!-- Checkmark -->
+                <path
+                  d="M78 100 L93 115 L122 86"
+                  stroke="#e8758c"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+                <!-- Lock icon -->
+                <rect
+                  x="88"
+                  y="130"
+                  width="24"
+                  height="18"
+                  rx="3"
+                  fill="#e8758c"
+                  opacity="0.6"
+                />
+                <path
+                  d="M93 130 L93 124 C93 120 96 117 100 117 C104 117 107 120 107 124 L107 130"
+                  stroke="#e8758c"
+                  stroke-width="2.5"
+                  fill="none"
+                  opacity="0.6"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== How It Works Section ===== -->
+    <section class="how-it-works">
+      <div class="container">
+        <h2 class="reveal">Get started in <span>seconds</span></h2>
+        <p class="section-subtitle reveal">
+          No accounts, no setup wizards, no endless questions. Just download and
+          start tracking.
+        </p>
+
+        <div class="steps">
+          <div class="step reveal">
+            <div class="step-number">1</div>
+            <h3>Download Posy</h3>
+            <p>
+              Get Posy for free from the App Store. No sign-up or account needed
+              — just open and go.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-number">2</div>
+            <h3>Log Your Cycle</h3>
+            <p>
+              Record your period start date, log daily flow, moods, and symptoms
+              with a few simple taps.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-number">3</div>
+            <h3>Discover Insights</h3>
+            <p>
+              Get predictions for future cycles and uncover patterns in your
+              mood, symptoms, and cycle length.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ Section ===== -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <h2 class="reveal">Frequently asked <span>questions</span></h2>
+        <p class="section-subtitle reveal">
+          Got questions? We've got answers. If there's something else on your
+          mind, feel free to reach out.
+        </p>
+
+        <div class="faq-list reveal">
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Is Posy really free?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! Posy is completely free to download and use. There are no
+                hidden fees, subscriptions, or in-app purchases. All features
+                are available from day one.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Where is my data stored?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                All your data is stored locally on your device only. Posy has no
+                servers, no cloud storage, and no way to access your
+                information. Your health data never leaves your phone.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              How accurate are the cycle predictions?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Posy uses your logged cycle history to calculate predictions.
+                The more cycles you track, the more accurate your predictions
+                become. Predictions include period dates, fertile windows, and
+                ovulation estimates up to 2 years into the future.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              What can I log each day?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                You can log your period flow (spotting, light, medium, heavy),
+                mood (happy, calm, sad, anxious, irritable, energetic, tired,
+                sensitive), and physical symptoms (headache, backache, breast
+                tenderness, fatigue, nausea, cramps, and more).
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Can I export or back up my data?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! You can export your data anytime from Settings. Since all
+                data is stored locally, we recommend backing up regularly. You
+                can also import data from a previous backup if you switch
+                devices.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Does Posy work without internet?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Absolutely. Posy works 100% offline. Since there's no server
+                communication, you never need an internet connection. Track your
+                cycle anywhere, anytime.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              How do I delete my data?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Go to Settings &gt; Delete All Data to permanently erase all
+                your information from the app. Since your data is only stored on
+                your device, deleting it is instant and irreversible — there are
+                no server copies to worry about.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Is Posy available on Android?
+              <svg
+                class="faq-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Posy is currently available on iOS (iPhone and iPad). An Android
+                version is not available at this time, but stay tuned for future
+                updates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Download CTA Section ===== -->
+    <section class="cta" id="download">
+      <div class="container">
+        <h2>Start tracking with Posy today</h2>
+        <p class="cta-subtitle">
+          Beautiful, simple, and completely private. Your cycle tracker should
+          respect your body and your data.
+        </p>
+        <a
+          href="https://apps.apple.com/us/app/posy-period-tracker-log/id6758400519"
+          class="btn-white"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+            />
+          </svg>
+          Download on the App Store
+        </a>
+        <p class="cta-note">No account required &middot; iOS 15.1+</p>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <img
+                src="images/screenshots/icon.png"
+                alt="Posy icon"
+                onerror="this.style.display = 'none'"
+              />
+              Posy
+            </div>
+            <p>
+              A beautifully simple period tracker that puts your privacy first.
+              Track your cycle, predict future periods, and discover insights
+              about your body.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>App</h4>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#screenshots">Screenshots</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li>
+                <a
+                  href="https://apps.apple.com/us/app/posy-period-tracker-log/id6758400519"
+                  >Download</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal & Support</h4>
+            <ul>
+              <li><a href="privacy.html">Privacy Policy</a></li>
+              <li><a href="support.html">Support</a></li>
+              <li><a href="mailto:xcanchal@gmail.com">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 Posy</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+      // Sticky nav shadow on scroll
+      const nav = document.querySelector("nav");
+      window.addEventListener("scroll", () => {
+        nav.classList.toggle("scrolled", window.scrollY > 10);
+      });
+
+      // Scroll reveal animations
+      const revealElements = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      );
+
+      revealElements.forEach((el) => observer.observe(el));
+
+      // FAQ accordion
+      document.querySelectorAll(".faq-question").forEach((button) => {
+        button.addEventListener("click", () => {
+          const item = button.parentElement;
+          const isOpen = item.classList.contains("open");
+
+          // Close all
+          document
+            .querySelectorAll(".faq-item")
+            .forEach((i) => i.classList.remove("open"));
+          document
+            .querySelectorAll(".faq-question")
+            .forEach((b) => b.setAttribute("aria-expanded", "false"));
+
+          // Open clicked (if it was closed)
+          if (!isOpen) {
+            item.classList.add("open");
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      // Close mobile menu on link click
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          document.getElementById("navLinks").classList.remove("active");
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const target = document.querySelector(anchor.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
